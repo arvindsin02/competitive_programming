@@ -14,7 +14,9 @@ int main() {
     string source = "source";
     string dest = "dest";
     string aux = "aux";
-    int n=3;
+    cout<<"Enter the number of disks:"<<endl;
+    int n;
+    cin>>n;
     TOH(source, dest, aux, n);
     return 0;
 }
