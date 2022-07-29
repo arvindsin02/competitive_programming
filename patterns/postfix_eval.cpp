@@ -37,8 +37,15 @@ string infixToPostfix(string s) {
     stack<char> st;
     string output = "";
     for(int i=0;i<s.length();i++) {
-        if(isOperand(s[i]))
-            output += s[i];
+        if(isOperand(s[i])) {
+            string operand  = "";
+            while(isOperand(s[i])) {
+                operand += s[i];
+                i++;
+            }
+            i--;
+            output += operand +"_";
+        }
         else if(isOperator(s[i])){
             if(!st.empty()) {
                 char top = st.top();
@@ -97,8 +104,14 @@ int evaluate(stack<int>& operand_stack, char op) {
 int evaluatePostfix(string postfix) {
     stack<int> operand_stack;
     for(int i=0;i<postfix.length();i++) {
-        if(isOperand(postfix[i]))
-            operand_stack.push(postfix[i]-'0');
+        if(isOperand(postfix[i])) {
+            int operand = 0;
+            while(isOperand(postfix[i])) {
+                operand = operand*10 + postfix[i]-'0';
+                i++;
+            }
+            operand_stack.push(operand);
+        }
         if(isOperator(postfix[i])) {
             evaluate(operand_stack, postfix[i]);
         }
@@ -107,8 +120,10 @@ int evaluatePostfix(string postfix) {
 }
 
 int main() {
-    string s = "(2+3)*(4+7)-2";
+    string s = "(100*(1+8/2)+3*12+4)-8";
+    cout<<s<<endl;
     string postfix = infixToPostfix(s);
+    cout<<postfix<<endl;
     cout<<evaluatePostfix(postfix);
     return 0;
 }
